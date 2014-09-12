@@ -105,6 +105,7 @@ config.vm.box = "ubuntu/trusty64"
     chef.add_recipe "passenger_nginx"
     chef.add_recipe "nodejs"
     chef.add_recipe "phantomjs"
+    chef.add_recipe "libreoffice"
   end
 
 end
