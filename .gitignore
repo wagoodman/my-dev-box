@@ -1,49 +1,41 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-#*.jar
-*.rar
-*.tar
-*.zip
-
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
-
-# OS generated files #
-######################
+.autotest
+coverage
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-.vagrant/
+pkg
+*/tags
+*~
 
-######################
-.gradle
-build
-bin
-.classpath
+# you should check in your Gemfile.lock in applications, and not in gems
+Gemfile.lock
+Gemfile.local
+
+# Do not check in the .bundle directory, or any of the files inside it. Those files are specific to each particular machine, and are used to persist installation options between runs of the bundle install command.
+.bundle
+
+# ignore some common Bundler 'binstubs' directory names
+# http://gembundler.com/man/bundle-exec.1.html
+b/
+binstubs/
+
+# RVM and RBENV ruby version files
+.rbenv-version
+.rvmrc
+.ruby-version
+.ruby-gemset
+
+# IDE files
 .project
-.settings
-*.orig
-vagrant.yml
 
+# Documentation
+_site/*
+.yardoc/
+doc/
+
+# Test Kitchen
+.kitchen/
+Berksfile.lock
+
+# Vagrant
+Vagrantfile
+.vagrant/
+vagrant.yml

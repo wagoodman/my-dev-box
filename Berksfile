@@ -1,5 +1,21 @@
 source "http://api.berkshelf.com"
 
-
-cookbook 'postgresql', git: 'https://github.com/phlipper/chef-postgresql.git'
-cookbook 'phantomjs'
+cookbook "apt"
+cookbook "build-essential"
+cookbook "elasticsearch"
+cookbook "git"
+cookbook "java"
+cookbook "libqt4"
+cookbook "libreoffice"
+cookbook "libsasl2_dev", path: "kitchen/site-cookbooks/libsasl2_dev"
+cookbook "memcached"
+cookbook "nodejs"
+cookbook "openssl"
+cookbook "passenger_nginx", path: "kitchen/site-cookbooks/passenger_nginx"
+cookbook "phantomjs"
+cookbook "postgresql", git: "https://github.com/phlipper/chef-postgresql.git"
+cookbook "python"
+cookbook "ruby_dev", path: "kitchen/site-cookbooks/ruby_dev"
+cookbook "rvm"
+cookbook "wordnet", path: "kitchen/site-cookbooks/wordnet"
+cookbook "yum"
