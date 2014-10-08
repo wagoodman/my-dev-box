@@ -1,9 +1,0 @@
-DEPENDENCIES
-  postgresql
-    git: https://github.com/phlipper/chef-postgresql.git
-    revision: 8438360775ce239627878dddded9cfde72e2d3ff
-
-GRAPH
-  apt (2.5.3)
-  postgresql (0.14.1)
-    apt (>= 1.9.0)
