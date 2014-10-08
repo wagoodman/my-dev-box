@@ -11,6 +11,7 @@
 require 'optparse'
 require 'ostruct'
 require 'yaml'
+require 'fileutils'
 
 # set default values
 @opts = OpenStruct.new
@@ -18,7 +19,19 @@ require 'yaml'
 @opts.cpus = 1
 @opts.memory = 4096
 @vagrant = 'vagrant.yml'
+@vagrantfile = File.join(__dir__, 'Vagrantfile')
+@vagrantfile_example = File.join(__dir__, 'Vagrantfile.example')
 @file = File.join(__dir__, @vagrant)
+
+# create vagrantfile from vagrantfile.example
+def create_vagrantfile
+  return if File.exist?(@vagrantfile)
+  unless File.exist?(@vagrantfile_example)
+    puts 'Error: Vagrantfile.example does not exist! Unable to create Vagrantfile.'
+    return
+  end
+  FileUtils.cp 'Vagrantfile.example', 'Vagrantfile'
+end
 
 # import current file settings if file exists
 def import_settings
@@ -82,11 +95,12 @@ def format
   File.open(@vagrant, 'w') { |file| file.write content }
 end
 
+create_vagrantfile
 import_settings
 parse_args
-@content = { 
-  synced_folder: [{localpath: @opts.localpath}, {guestpath: @opts.guestpath}], 
-  hardware: [{cpus: @opts.cpus}, {memory: @opts.memory}] 
+@content = {
+  synced_folder: [{localpath: @opts.localpath}, {guestpath: @opts.guestpath}],
+  hardware: [{cpus: @opts.cpus}, {memory: @opts.memory}]
 }
 update
 format

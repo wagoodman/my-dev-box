@@ -24,13 +24,8 @@ Clone the repo
 git clone git@github.com:excellaco/my-dev-box.git
 ```
 
-Create a `Vagrantfile` using `Vagrantfile.example`
-
-```
-cp Vagrantfile.example Vagrantfile
-```
-
-Update a local project path to share with the vm, e.g. a web app you're developing locally on the host machine. Creates vagrant.yml file.
+Update the host's local project path to share with the vm, e.g. a web app you're developing locally on the host machine. Creates `vagrant.yml` file and
+creates the `Vagrantfile` from `Vagrantfile.example`.
 
 ```ruby
 ruby config_vagrant.rb -l /changeme-absolute-path-to-proj-dir
