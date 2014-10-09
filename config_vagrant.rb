@@ -16,7 +16,7 @@ require 'fileutils'
 # set default values
 @opts = OpenStruct.new
 @opts.guestpath = '/vagrant_data'
-@opts.cpus = 1
+@opts.cpus = 2
 @opts.memory = 4096
 @vagrant = 'vagrant.yml'
 @vagrantfile = File.join(__dir__, 'Vagrantfile')
