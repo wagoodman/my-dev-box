@@ -81,7 +81,7 @@ vagrant up
 
 Existing settings in your vagrant.yml file will be persisted. Only specifie change will occur. You will need to restart your vagrant box for changes to take effect.
 
-Change number of cpus assigned to your VM (default is 1)
+Change number of cpus assigned to your VM (default is 2)
 
 ```
 ruby config_vagrant.rb -c <# of cpus>
