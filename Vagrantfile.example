@@ -106,7 +106,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "default_ruby" => "ruby-2.1.5",
         "global_gems" => [
           { "name" => "bundler" },
-          { "name" => "rails", "version" => "4.1.6" }
+          { "name" => "rails", "version" => "4.1.9" }
         ]
       }
     }

@@ -35,3 +35,7 @@ end if node['nodejs'].key?('npm_packages')
 nodejs_npm 'bower' do
   version '1.3.9'
 end
+
+nodejs_npm 'gulp' do
+  version '3.8.5'
+end
