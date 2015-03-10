@@ -15,9 +15,8 @@
 # By submitting a pull request, you are agreeing to comply with this waiver of copyright interest.
 #
 
-bash 'install rwordnet' do
-  code 'gem install rwordnet'
-  user 'vagrant'
+gem_package "rwordnet" do
+  action :install
 end
 
 cookbook_file "/var/lib/wn_s.pl" do

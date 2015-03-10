@@ -16,7 +16,7 @@
 #
 
 bash 'install rwordnet' do
-  command 'gem install rwordnet'
+  code 'gem install rwordnet'
   user 'vagrant'
 end
 
