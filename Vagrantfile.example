@@ -129,7 +129,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "ruby_dev"
     chef.add_recipe "rvm::system"
     chef.add_recipe "rvm::vagrant"
-    chef.add_recipe "wordnet"
     chef.add_recipe "yum"
     chef.add_recipe "java"
     chef.add_recipe "java::default_java_symlink"
