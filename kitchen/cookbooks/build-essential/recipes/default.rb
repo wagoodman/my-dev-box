@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+
 begin
   include_recipe "build-essential::_#{node['platform_family']}"
 rescue Chef::Exceptions::RecipeNotFound
