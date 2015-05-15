@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: build-essential
-# Recipe:: default
+# Cookbook Name:: redisio
+# Recipe:: redis_gem
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2013, Brian Bianco <brian.bianco@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +17,7 @@
 # limitations under the License.
 #
 
-
-begin
-  include_recipe "build-essential::_#{node['platform_family']}"
-rescue Chef::Exceptions::RecipeNotFound
-  Chef::Log.warn <<-EOH
-A build-essential recipe does not exist for '#{node['platform_family']}'. This
-means the build-essential cookbook does not have support for the
-#{node['platform_family']} family. If you are not compiling gems with native
-extensions or building packages from source, this will likely not affect you.
-EOH
+gem_package node['redisio']['gem']['name'] do
+  version node['redisio']['gem']['version'] unless node['redisio']['gem']['version'].nil?  
+  action :install
 end
