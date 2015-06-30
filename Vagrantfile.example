@@ -137,6 +137,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "java::default_java_symlink"
     chef.add_recipe "elasticsearch"
     chef.add_recipe "pdftk"
+    chef.add_recipe "tesseract"
     chef.add_recipe "redisio"
     chef.add_recipe "redisio::enable"
   end
