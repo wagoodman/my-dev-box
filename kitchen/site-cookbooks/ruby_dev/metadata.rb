@@ -8,4 +8,4 @@ supports "ubuntu", "~> 14.04.0"
 
 depends 'apt'
 
-recipe "ruby_dev::default", "Installs ruby-dev and libpq-dev package"
+recipe "ruby_dev::default", "Installs ruby-dev, libssl-dev and libpq-dev package"
