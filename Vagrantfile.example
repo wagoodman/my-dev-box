@@ -139,5 +139,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "elasticsearch"
     chef.add_recipe "pdftk"
     chef.add_recipe "freetds"
+    chef.add_recipe "libmagic"
   end
 end
