@@ -111,6 +111,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           { "name" => "bundler" },
           { "name" => "rails", "version" => "4.1.9" }
         ]
+      },
+      "nodejs": {
+        "npm_packages": [
+          {
+            "name": "istanbul"
+          }
+        ]
       }
     }
 
