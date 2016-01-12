@@ -147,5 +147,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "pdftk"
     chef.add_recipe "freetds"
     chef.add_recipe "libmagic"
+    chef.add_recipe "firefox"
+    chef.add_recipe "xvfb"
   end
 end
