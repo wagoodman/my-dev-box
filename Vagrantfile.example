@@ -67,6 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # some recipes and/or roles.
 
   config.vm.provision :chef_solo do |chef|
+    chef.custom_config_path = "Vagrantfile.chef"
     chef.cookbooks_path = ["kitchen/cookbooks", "kitchen/site-cookbooks"]
     chef.verbose_logging = true
     # chef.log_level = "debug"
@@ -149,5 +150,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "libmagic"
     chef.add_recipe "firefox"
     chef.add_recipe "xvfb"
+    chef.add_recipe "chrome"
   end
 end

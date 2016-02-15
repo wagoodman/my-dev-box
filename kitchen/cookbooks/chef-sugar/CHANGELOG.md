@@ -2,6 +2,89 @@ Chef Sugar Changelog
 =========================
 This file is used to list changes made in each version of the chef-sugar cookbook and gem.
 
+v3.3.0 (2016-01-11)
+-------------------
+### Improvements
+- Break up `Chef::Sugar::Constraints` into a class and a dsl file
+- Add `platform_version` method with full constraints comparison support
+
+v3.2.0 (2015-12-10)
+-------------------
+### Improvements
+- Add platform matchers for `debian` and `fedora`
+- Add `openvz` support under virtualization
+- Add init system detection support
+- Add support for `nexus`, `ios_xr` platforms and `wrlinux` platform_family
+- Add additional `aix` helpers
+
+### Bug Fixes
+- Properly expose `Architecture#i386?` in the DSL
+
+v3.1.1 (2015-06-23)
+-------------------
+### Improvements
+- Update Intel CPU types based on existing Fauxhai data
+- Update SPARC logic and 32/64-bit logic for x86 and i386
+
+### Bug Fixes
+- Fix 32-bit logic
+- Fix default behavior to include chef-sugar at compile time
+- Fix Chef 12.1.0 warnings for chef_gem compile time install
+- Fix `redhat_enterprise_linux?` matcher
+
+v3.0.2 (2015-03-26)
+-------------------
+### Improvements
+- Add helpers for `ppc64` and `ppc64le` architecture
+
+### Bug Fixes
+- Adjustments to error message
+
+v3.0.1 (2015-03-20)
+-------------------
+### Breaking Changes
+- Rename `compile_time` `to at_compile_time` - if your recipes are affected by
+  this breaking change, your Chef Client run will produce a verbose error
+  message with details on how to fix the error.
+
+v3.0.0 (2015-03-17)
+-------------------
+### Breaking Changes
+- Drop support for Ruby 1.9 (it might still work, but it is no longer officially supported)
+
+### Improvements
+- Remove accidentially committed gem source
+- Bump development dependencies
+- Add `digitalocean?` matcher
+- Expose the `rhel` platform as `el`
+- Add `ppc64le` platform
+- Add helper for determining if architecture is SPARC
+- Add helper for determining if architecture is Intel
+- Add dynamic platform/version matchers for Solaris
+
+### Bug Fixes
+- Reset namespace_options when reaching top-level resources
+
+v2.5.0 (2015-01-05)
+-------------------
+### Improvements
+- Add `data_bag_item_for_environment` function
+- Add `kvm?` matcher
+- Add `virtualbox?` matcher
+
+### Bug Fixes
+- Use `.key?` to check for hash key presence, raising an `AttributeDoesNotExist`
+  error sooner
+
+v2.4.1 (2014-10-12)
+-------------------
+- No changes from v2.4.0 - forced a new version upload to the Chef Supermarket
+
+v2.4.0 (2014-10-12)
+-------------------
+### Improvements
+- Add `docker?` matcher
+
 v2.3.2 (2014-10-07)
 -------------------
 ### Big Fixues
