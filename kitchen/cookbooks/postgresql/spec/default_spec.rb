@@ -2,11 +2,11 @@ require "spec_helper"
 
 describe "postgresql::default" do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new.converge(described_recipe)
+    ChefSpec::Runner.new.converge(described_recipe)
   end
 
   it "adds an apt preference" do
-    expect(chef_run).to add_apt_preference("pgdg")
+    expect(chef_run).to add_apt_preference("pgdg.pref")
   end
 
   it "sets up an apt repository" do
@@ -21,7 +21,7 @@ describe "postgresql::default" do
   context "using debian platform" do
     let(:chef_run) do
       env_options = { platform: "debian", version: "6.0.5" }
-      ChefSpec::SoloRunner.new(env_options).converge(described_recipe)
+      ChefSpec::Runner.new(env_options).converge(described_recipe)
     end
 
     it "sets up an apt repository" do

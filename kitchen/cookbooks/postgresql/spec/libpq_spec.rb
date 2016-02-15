@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "postgresql::libpq" do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new.converge(described_recipe)
+    ChefSpec::Runner.new.converge(described_recipe)
   end
 
   it "includes the default recipe" do

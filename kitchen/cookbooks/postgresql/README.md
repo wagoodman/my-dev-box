@@ -1,14 +1,4 @@
-# chef-postgresql
-
-## Flair
-
-![Cookbook Version](https://img.shields.io/badge/cookbook-0.16.1-blue.svg)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://phlipper.mit-license.org/2012-2015/license.html)
-[![Build Status](http://img.shields.io/travis-ci/phlipper/chef-postgresql.png)](https://travis-ci.org/phlipper/chef-postgresql)
-[![Gitter](https://img.shields.io/badge/Gitter%2Eim-Join_Chat_→-yellow.svg)](https://gitter.im/phlipper/chef-postgresql)
-![It Works On My Machine™](https://img.shields.io/badge/It_Works-On_My_Machine%E2%84%A2-orange.svg)
-[![Tip](http://img.shields.io/gratipay/phlipper.png)](https://gratipay.com/phlipper/)
-[![Endorse](http://api.coderwall.com/phlipper/endorsecount.png)](http://coderwall.com/phlipper)
+# chef-postgresql  [![Build Status](http://img.shields.io/travis-ci/phlipper/chef-postgresql.png)](https://travis-ci.org/phlipper/chef-postgresql)
 
 ## Description
 
@@ -22,9 +12,8 @@ Currently supported versions:
 * `9.1`
 * `9.2`
 * `9.3`
-* `9.4`
 
-The default version is `9.4`.
+The default version is `9.3`.
 
 ## Requirements
 
@@ -32,13 +21,8 @@ The default version is `9.4`.
 
 The following platforms are supported by this cookbook, meaning that the recipes run on these platforms without error:
 
-* Debian 7.8
-* Ubuntu 12.04
-* Ubuntu 14.04
-
-### Chef
-
-This cookbook requires Chef >= 11.13 due to the use of the `sensitive` attribute for some resources.
+* Ubuntu 12.04+
+* Debian 6+
 
 ### Cookbooks
 
@@ -58,14 +42,12 @@ This cookbook requires Chef >= 11.13 due to the use of the `sensitive` attribute
 * `postgresql::debian_backports` - Internal recipe to manage debian backports
 * `postgresql::doc` - Documentation for the PostgreSQL database management system
 * `postgresql::libpq` - PostgreSQL C client library and header files for libpq5 (PostgreSQL library)
+* `postgresql::pg_database` - Internal recipe to manage specified databases
+* `postgresql::pg_user` - Internal recipe to manage specified users
 * `postgresql::postgis` - Geographic objects support for PostgreSQL 9.x _(currently Ubuntu only)_
 * `postgresql::server` - Object-relational SQL database, version 9.x server
 * `postgresql::server_dev` - Development files for PostgreSQL server-side programming
 * `postgresql::service` - Internal recipe to declare the system service
-* `postgresql::setup_databases` - Internal recipe to manage specified databases
-* `postgresql::setup_extensions` - Internal recipe to manage specified database extensions
-* `postgresql::setup_languages` - Internal recipe to manage specified database languages
-* `postgresql::setup_users` - Internal recipe to manage specified users
 
 
 ## Usage
@@ -79,25 +61,19 @@ This cookbook provides three definitions to create, alter, and delete users as w
 
 ```ruby
 # create a user
-postgresql_user "myuser" do
-  superuser false
-  createdb false
-  login true
-  replication false
+pg_user "myuser" do
+  privileges superuser: false, createdb: false, login: true
   password "mypassword"
 end
 
 # create a user with an MD5-encrypted password
-postgresql_user "myuser" do
-  superuser false
-  createdb false
-  login true
-  replication false
+pg_user "myuser" do
+  privileges superuser: false, createdb: false, login: true
   encrypted_password "667ff118ef6d196c96313aeaee7da519"
 end
 
 # drop a user
-postgresql_user "myuser" do
+pg_user "myuser" do
   action :drop
 end
 ```
@@ -111,11 +87,7 @@ Or add users via attributes:
       "username": "dickeyxxx",
       "password": "password",
       "superuser": true,
-      "replication": false,
       "createdb": true,
-      "createrole": false,
-      "inherit": true,
-      "replication": false,
       "login": true
     }
   ]
@@ -126,7 +98,7 @@ Or add users via attributes:
 
 ```ruby
 # create a database
-postgresql_database "mydb" do
+pg_database "mydb" do
   owner "myuser"
   encoding "UTF-8"
   template "template0"
@@ -134,22 +106,20 @@ postgresql_database "mydb" do
 end
 
 # install extensions to database
-postgresql_extension "hstore" do
-  database "mydb"
-end
-
-postgresql_language "plpgsql" do
-  database "mydb"
+pg_database_extensions "mydb" do
+  languages "plpgsql"              # install `plpgsql` language - single value may be passed without array
+  extensions ["hstore", "dblink"]  # install `hstore` and `dblink` extensions - multiple values in array
+  postgis true                     # install `postgis` support
 end
 
 # drop dblink extension
-postgresql_extension "dblink" do
-  database "mydb"
+pg_database_extensions "mydb" do
   action :drop
+  extensions "dblink"
 end
 
 # drop a database
-postgresql_database "mydb" do
+pg_database "mydb" do
   action :drop
 end
 ```
@@ -165,8 +135,7 @@ Or add the database via attributes:
       "template": "template0",
       "encoding": "UTF-8",
       "locale": "en_US.UTF-8",
-      "extensions": ["hstore", "dblink"],
-      "postgis": true
+      "extensions": "hstore"
     }
   ]
 }
@@ -225,12 +194,7 @@ distribution:
 # WARNING: If this version number is changed in your own recipes, the
 # FILE LOCATIONS (see below) attributes *must* also be overridden in
 # order to re-compute the paths with the correct version number.
-default["postgresql"]["version"]                         = "9.4"
-
-#----------------------------------------------------------------------------
-# DAEMON CONTROL
-#----------------------------------------------------------------------------
-default["postgresql"]["service_actions"]                 = %w[enable start]
+default["postgresql"]["version"]                         = "9.3"
 
 # control how the postgres service is signaled when configuration files are
 # updated. by default the service is told to `:restart` (stop, start). if you
@@ -241,7 +205,7 @@ default["postgresql"]["service_actions"]                 = %w[enable start]
 default["postgresql"]["cfg_update_action"]               = :restart
 
 #----------------------------------------------------------------------------
-# APT REPOSITORY
+# APT Repository
 #----------------------------------------------------------------------------
 default["postgresql"]["apt_distribution"]                = node["lsb"]["codename"]
 default["postgresql"]["apt_repository"]                  = "apt.postgresql.org"
@@ -260,6 +224,11 @@ default["postgresql"]["start"]                           = "auto"  # auto, manua
 default["postgresql"]["conf"]                            = {}
 default["postgresql"]["conf_custom"]                     = false  # if true, only use node["postgresql"]["conf"]
 default["postgresql"]["initdb_options"]                  = "--locale=en_US.UTF-8"
+
+#------------------------------------------------------------------------------
+# POSTGIS
+#------------------------------------------------------------------------------
+default["postgis"]["version"]                            = "2.1"
 
 #------------------------------------------------------------------------------
 # FILE LOCATIONS
@@ -597,9 +566,6 @@ default["postgresql"]["restart_after_crash"]             = "on"
 
 default["postgresql"]["users"]                           = []
 default["postgresql"]["databases"]                       = []
-default["postgresql"]["extensions"]                      = []
-default["postgresql"]["languages"]                       = []
-
 
 
 #------------------------------------------------------------------------------
@@ -613,7 +579,7 @@ default["postgresql"]["custom_variable_classes"]         = ""
 # POSTGIS OPTIONS
 #------------------------------------------------------------------------------
 
-default["postgis"]["version"] = "2.1"
+default["postgis"]["version"] = "2.0"
 ```
 
 
@@ -625,11 +591,14 @@ default["postgis"]["version"] = "2.1"
 ```
 postgresql-{version}-ip4r
 postgresql-{version}-pgq3
+postgresql-{version}-plsh
 postgresql-{version}-pgmp
 postgresql-{version}-plproxy
+postgresql-{version}-plv8
 postgresql-{version}-repmgr
 postgresql-{version}-debversion
 postgresql-{version}-pgpool2
+postgresql-{version}-plr
 postgresql-{version}-slony1-2
 ```
 
@@ -708,22 +677,12 @@ Many thanks go to the following who have contributed to making this cookbook eve
     * uncomment `log_filename` attribute
 * **[@rosenfeld](https://github.com/rosenfeld)**
     * ensure proper database is selected in `pg_database` definition
-* **[@j-martin](https://github.com/j-martin)**
-    * ensure proper quoting of role name in `pg_user` definition
-* **[@helgi](https://github.com/helgi)**
-    * add replication mode to `pg_user` definition
-* **[@vesln](https://github.com/vesln)**
-    * add missing `ssl_ca_file` and `ssl_crl_file` attributes to the configuration template
-* **[@vivid-inc](https://github.com/vivid-inc)**
-    * add `service_actions` attribute
-* **[@rmoriz](https://github.com/rmoriz)**
-    * remove redundant postgis attribute
 
 
 ## License
 
 **chef-postgresql**
 
-* Freely distributable and licensed under the [MIT license](http://phlipper.mit-license.org/2012-2015/license.html).
-* Copyright (c) 2012-2015 Phil Cohen (github@phlippers.net)
+* Freely distributable and licensed under the [MIT license](http://phlipper.mit-license.org/2012-2014/license.html).
+* Copyright (c) 2012-2014 Phil Cohen (github@phlippers.net) [![endorse](http://api.coderwall.com/phlipper/endorsecount.png)](http://coderwall.com/phlipper)  [![Gittip](http://img.shields.io/gittip/phlipper.png)](https://www.gittip.com/phlipper/)
 * http://phlippers.net/

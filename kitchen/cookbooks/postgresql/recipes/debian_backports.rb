@@ -14,6 +14,7 @@ apt_repository "debian-backports" do
   uri backports_uri
   distribution "#{node["lsb"]["codename"]}-backports"
   components ["main"]
+  action :add
 end
 
 # backports support for debian

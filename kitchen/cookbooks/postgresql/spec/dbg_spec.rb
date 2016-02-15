@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "postgresql::dbg" do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new do |node|
+    ChefSpec::Runner.new do |node|
       node.set["postgresql"]["version"] = "9.3"
     end.converge(described_recipe)
   end
