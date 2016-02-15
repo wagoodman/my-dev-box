@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "postgresql::server" do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new do |node|
+    ChefSpec::Runner.new do |node|
       node.set["postgresql"]["version"] = "9.3"
     end.converge(described_recipe)
   end
@@ -38,16 +38,27 @@ describe "postgresql::server" do
     end
   end
 
-  specify do
+  it "installs the server package" do
     expect(chef_run).to install_package("postgresql-9.3")
+  end
 
+  it "includes the data directory recipe" do
     expect(chef_run).to include_recipe("postgresql::data_directory")
-    expect(chef_run).to include_recipe("postgresql::configuration")
-    expect(chef_run).to include_recipe("postgresql::service")
+  end
 
-    expect(chef_run).to include_recipe("postgresql::setup_users")
-    expect(chef_run).to include_recipe("postgresql::setup_databases")
-    expect(chef_run).to include_recipe("postgresql::setup_extensions")
-    expect(chef_run).to include_recipe("postgresql::setup_languages")
+  it "includes the configuration recipe" do
+    expect(chef_run).to include_recipe("postgresql::configuration")
+  end
+
+  it "includes the service recipe" do
+    expect(chef_run).to include_recipe("postgresql::service")
+  end
+
+  it "includes the `pg_user` recipe to setup users" do
+    expect(chef_run).to include_recipe("postgresql::pg_user")
+  end
+
+  it "includes the `pg_database` recipe to setup databases" do
+    expect(chef_run).to include_recipe("postgresql::pg_database")
   end
 end
