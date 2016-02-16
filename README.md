@@ -104,3 +104,12 @@ Change guestpath on your VM (default is /vagrant_data)
 ```
 ruby config_vagrant.rb -g <absolute-path>
 ```
+
+
+##### Launch Sauce Connect VPN tunnel
+```
+export SAUCE_USERNAME=username
+export SAUCE_ACCESS_KEY=something-secret
+
+sauce-connect
+```
