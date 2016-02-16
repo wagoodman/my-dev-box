@@ -151,5 +151,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "firefox"
     chef.add_recipe "xvfb"
     chef.add_recipe "chrome"
+    chef.add_recipe "sauce_labs"
   end
 end
