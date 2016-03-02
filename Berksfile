@@ -1,4 +1,4 @@
-source "https://berks-api.vialstudios.com"
+# source "https://berks-api.vialstudios.com"
 source "https://supermarket.chef.io"
 
 cookbook "apt"
@@ -24,3 +24,4 @@ cookbook 'compat_resource', "12.5.14"
 cookbook "xvfb"
 cookbook "chrome", git: "https://github.com/dhoer/chef-chrome"
 cookbook "firefox"
+cookbook 'redisio', '~> 2.3.0'
