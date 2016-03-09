@@ -113,10 +113,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           { "name" => "rails", "version" => "4.1.9" }
         ]
       },
-      "nodejs": {
-        "npm_packages": [
+      "nodejs" => {
+        "npm_packages" => [
           {
-            "name": "istanbul"
+            "name" => "istanbul"
           }
         ]
       }
