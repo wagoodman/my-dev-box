@@ -2,7 +2,7 @@
 # Cookbook Name:: memcached
 # Recipe:: default
 #
-# Copyright 2009-2015, Chef Software, Inc.
+# Copyright 2009-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -62,10 +62,4 @@ user service_user do
   comment 'Memcached'
   shell '/bin/false'
   action :nothing
-end
-
-# Disable the default memcached service so we configure it from the custom resource
-# If the memcached::default is included the configure.rb recipe will start/enable the service
-service 'memcached' do
-  action [:stop, :disable]
 end

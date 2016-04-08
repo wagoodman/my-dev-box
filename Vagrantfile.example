@@ -10,16 +10,26 @@ if settings.key?(:hardware)
   cpus = settings[:hardware][:cpus]
   memory = settings[:hardware][:memory]
 else
-  cpus = 2
-  memory = 4096
+  cpus = 4
+  memory = 6000
 end
 
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  if !Vagrant.has_plugin?("vagrant-proxyconf")
+    system('vagrant plugin install vagrant-proxyconf')
+
+   raise("vagrant-proxyconf installed. Run command again.");
+  end
+
+ config.proxy.http     = ""
+ config.proxy.https    = ""
 
   # Ubuntu 14.04
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "default"
+  # config.vm.box = "trusty64"
+  # config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -27,6 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 80, host:9080
   config.vm.network "forwarded_port", guest: 443, host:9443
   config.vm.network "forwarded_port", guest: 9200, host: 9200
+  config.vm.network "forwarded_port", guest: 3000, host: 3001
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -60,7 +71,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
-  config.omnibus.chef_version = "12.6"
+  # config.omnibus.chef_version = '12.6.0'
+  # config.omnibus.install_url = '/Users/arbailey/Desktop/chef_12.6.0-1_amd64.deb'
+  # config.omnibus.chef_version = "12.8.1"
+  # config.omnibus.chef_version = :latest
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
