@@ -113,6 +113,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           { "name" => "rails", "version" => "4.1.9" }
         ]
       },
+      'dynamodb-local' => {
+        'user' => 'root'
+      },
       "nodejs" => {
         "npm_packages" => [
           {
@@ -154,5 +157,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "sauce_labs"
     chef.add_recipe "redisio"
     chef.add_recipe "redisio::enable"
+    chef.add_recipe "dynamodb-local"
+    chef.add_recipe "dynamodb-local::upstart"
   end
 end
