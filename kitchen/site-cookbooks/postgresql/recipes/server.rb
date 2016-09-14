@@ -29,9 +29,3 @@ include_recipe "postgresql::pg_user"
 
 # setup databases
 include_recipe "postgresql::pg_database"
-
-# create a user
-pg_user "dev_db_user" do
-  privileges superuser: true, createdb: false, login: true
-  password "super_secret"
-end

@@ -16,7 +16,7 @@ cookbook "nodejs"
 cookbook "openssl"
 cookbook "passenger_nginx", path: "kitchen/site-cookbooks/passenger_nginx"
 cookbook "phantomjs"
-cookbook "postgresql", git: "git@github.com:phlipper/chef-postgresql.git"
+cookbook "postgresql", path: 'kitchen/site-cookbooks/postgresql'
 cookbook "python"
 cookbook "ruby_dev", path: "kitchen/site-cookbooks/ruby_dev"
 cookbook "rvm"

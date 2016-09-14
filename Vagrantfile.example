@@ -23,8 +23,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    raise("vagrant-proxyconf installed. Run command again.");
   end
 
- config.proxy.http     = ""
- config.proxy.https    = ""
+  if !Vagrant.has_plugin?("vagrant-omnibus")
+    system('vagrant plugin install vagrant-omnibus')
+
+   raise("vagrant-proxyconf installed. Run command again.");
+  end
+
+ # GET PRE PROXY URL FROM TEAM MEMBER
+ config.proxy.http     = "http://PRE-PROXY-URL:80"
+ config.proxy.https    = "http://PRE-PROXY-URL:80"
 
   # Ubuntu 14.04
   config.vm.box = "default"
@@ -72,7 +79,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # config.omnibus.chef_version = '12.6.0'
-  # config.omnibus.install_url = '/Users/arbailey/Desktop/chef_12.6.0-1_amd64.deb'
+  # YOU MAY NEED TO DOWNLOAD CHEF AND POINT TO ITS LOCATION
+  # config.omnibus.install_url = '/Users/usrname/Desktop/chef_12.6.0-1_amd64.deb'
   # config.omnibus.chef_version = "12.8.1"
   # config.omnibus.chef_version = :latest
 
@@ -86,6 +94,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.verbose_logging = true
     # chef.log_level = "debug"
 
+    chef.channel = "stable"
+    chef.version = "12.10.24"
     # custom JSON attributes:
     chef.json = {
       "apt" => {
@@ -164,7 +174,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "libmagic"
     chef.add_recipe "firefox"
     chef.add_recipe "xvfb"
-    chef.add_recipe "chrome"
+    # chef.add_recipe "chrome"
     chef.add_recipe "sauce_labs"
     chef.add_recipe "redisio"
     chef.add_recipe "redisio::enable"
