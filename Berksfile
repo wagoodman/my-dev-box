@@ -23,6 +23,6 @@ cookbook "rvm"
 cookbook "yum"
 # cookbook 'compat_resource', "12.5.14"
 cookbook "xvfb"
-cookbook "chrome", git: "https://github.com/dhoer/chef-chrome"
+cookbook 'chrome', '~> 1.2.2'
 cookbook "firefox"
 cookbook 'redisio', '~> 2.3.0'
