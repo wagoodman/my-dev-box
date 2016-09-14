@@ -1,6 +1,18 @@
 # Changelog
 
-## 1.1.1
+## 1.2.2 2016-06-03
+
+- PR #11 Use the machine key as opposed to processor 
+
+## 1.2.1 2016-05-13
+
+- Fix #10 OSX 10.9 chrome_version throws exception
+
+## 1.2.0 2016-05-12
+
+- Constrain apt package to a particular arch
+
+## 1.1.1 2015-09-27
 
 -  Fix #7 Chef::Exceptions::InvalidRemoteFileURI on Windows platform 
 

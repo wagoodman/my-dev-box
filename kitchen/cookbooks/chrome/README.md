@@ -1,10 +1,14 @@
 # Chrome Cookbook
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/chrome.svg?style=flat-square)][cookbook]
-[![Build Status](http://img.shields.io/travis/dhoer/chef-chrome.svg?style=flat-square)][travis]
+[![linux](http://img.shields.io/travis/dhoer/chef-chrome/master.svg?label=linux&style=flat-square)][linux]
+[![osx](http://img.shields.io/travis/dhoer/chef-chrome/macosx.svg?label=macosx&style=flat-square)][osx]
+[![win](https://img.shields.io/appveyor/ci/dhoer/chef-chrome/master.svg?label=windows&style=flat-square)][win]
 
 [cookbook]: https://supermarket.chef.io/cookbooks/chrome
-[travis]: https://travis-ci.org/dhoer/chef-chrome
+[linux]: https://travis-ci.org/dhoer/chef-chrome
+[osx]: https://travis-ci.org/dhoer/chef-chrome/branches
+[win]: https://ci.appveyor.com/project/dhoer/chef-chrome
 
 This cookbook installs Google Chrome browser (https://www.google.com/chrome/) at compile time, provides 
 `chrome_version` library method  to retrieve Chrome version installed, and provides `master_preferences` resource
@@ -123,7 +127,7 @@ Cookbook Matchers
 
 ## Getting Help
 
-- Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/chef-chrome).
+- Ask specific questions on [Stack Overflow](http://stackoverflow.com/search?q=google-chrome+chef).
 - Report bugs and discuss potential features in [Github issues](https://github.com/dhoer/chef-chrome/issues).
 
 ## Contributing

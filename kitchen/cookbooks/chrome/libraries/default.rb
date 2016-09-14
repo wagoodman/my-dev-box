@@ -24,7 +24,11 @@ def chrome_linux_version(command)
   cmd = Mixlib::ShellOut.new(command)
   cmd.run_command
   cmd.error!
-  cmd.stdout.match(/Google Chrome (.*)/)[1].strip
+  begin
+    cmd.stdout.match(/Google Chrome (.*)/)[1].strip
+  rescue
+    cmd.stdout.match(/(.*)/)[1].strip # older versions didn't include 'Google Chrome' in version output
+  end
 end
 
 def master_preferences_path(flavor)
