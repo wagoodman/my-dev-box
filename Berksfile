@@ -9,13 +9,12 @@ cookbook "java"
 cookbook 'elasticsearch', '~> 2.2.0'
 cookbook "git"
 cookbook "libqt4"
-cookbook "libreoffice"
 cookbook "libsasl2_dev", path: "kitchen/site-cookbooks/libsasl2_dev"
 cookbook "memcached"
 cookbook "nodejs"
 cookbook "openssl"
 cookbook "passenger_nginx", path: "kitchen/site-cookbooks/passenger_nginx"
-cookbook "phantomjs"
+cookbook 'phantomjs', '~> 1.0.3'
 cookbook "postgresql", path: 'kitchen/site-cookbooks/postgresql'
 cookbook "python"
 cookbook "ruby_dev", path: "kitchen/site-cookbooks/ruby_dev"
