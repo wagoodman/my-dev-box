@@ -3,4 +3,5 @@ cookbook_path    ["/my-dev-box/kitchen/cookbooks", "/my-dev-box/kitchen/site-coo
 #    "recipe[dynamodb-local]",
 #    "recipe[dynamodb-local::upstart]"
 #    "recipe[chrome]"
-#
+#    "recipe[postgresql::client]"
+#    "recipe[postgresql::server]"

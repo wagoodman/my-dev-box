@@ -14,12 +14,9 @@
    "recipe[openssl]",
    "recipe[passenger_nginx]",
    "recipe[phantomjs]",
-   "recipe[postgresql::client]",
-   "recipe[postgresql::server]",
    "recipe[python]",
    "recipe[ruby_dev]",
    "recipe[rvm::system]",
-   "recipe[rvm::vagrant]",
    "recipe[yum]",
    "recipe[java]",
    "recipe[java::default_java_symlink]",
@@ -29,7 +26,6 @@
    "recipe[libmagic]",
    "recipe[firefox]",
    "recipe[xvfb]",
-   "recipe[sauce_labs]",
    "recipe[redisio]",
    "recipe[redisio::enable]"
 
