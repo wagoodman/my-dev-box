@@ -19,6 +19,7 @@
    "recipe[python]",
    "recipe[ruby_dev]",
    "recipe[rvm::system]",
+   "recipe[rvm::vagrant]",
    "recipe[yum]",
    "recipe[java]",
    "recipe[java::default_java_symlink]",
@@ -28,7 +29,6 @@
    "recipe[libmagic]",
    "recipe[firefox]",
    "recipe[xvfb]",
-   "recipe[chrome]",
    "recipe[sauce_labs]",
    "recipe[redisio]",
    "recipe[redisio::enable]"
@@ -59,11 +59,11 @@
       "log_min_duration_statement" : "0"
     },
     "pg_hba" : [
-      { "type" : "local", "db" : "all", "user" : "postgres", "addr" : "", "method" : "ident"},
-      { "type" : "local", "db" : "all", "user" : "all", "addr" : "", "method" : "ident"},
+      { "type" : "local", "db" : "all", "user" : "postgres", "addr" : null, "method" : "ident"},
+      { "type" : "local", "db" : "all", "user" : "all", "addr" : null, "method" : "ident"},
       { "type" : "host", "db" : "all", "user" : "all", "addr" : "0.0.0.0/0", "method" : "md5"},
       { "type" : "host", "db" : "all", "user" : "all", "addr" : "::1/128", "method" : "md5"},
-      { "type" : "local", "db" : "all", "user" : "all", "addr" : "", "method" : "ident"}
+      { "type" : "local", "db" : "all", "user" : "all", "addr" : null, "method" : "ident"}
     ]
   },
   "rvm" : {
