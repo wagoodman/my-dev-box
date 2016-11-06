@@ -42,7 +42,7 @@ default['phantomjs']['package_name'] = 'phantomjs'
 default['phantomjs']['src_dir'] = '/usr/local/src'
 
 # The base URL to download tarball from
-default['phantomjs']['base_url'] = 'https://phantomjs.googlecode.com/files'
+default['phantomjs']['base_url'] = 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/'
 
 # The name of the tarball to download (this is automatically calculated from
 # the phantomjs version and kernel type)
