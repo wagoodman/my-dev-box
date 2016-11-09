@@ -14,8 +14,6 @@
    "recipe[openssl]",
    "recipe[passenger_nginx]",
    "recipe[phantomjs]",
-   "recipe[postgresql::client]",
-   "recipe[postgresql::server]",
    "recipe[python]",
    "recipe[ruby_dev]",
    "recipe[rvm::system]",
