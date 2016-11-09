@@ -14,6 +14,8 @@
    "recipe[openssl]",
    "recipe[passenger_nginx]",
    "recipe[phantomjs]",
+   "recipe[postgresql::client]",
+   "recipe[postgresql::server]",
    "recipe[python]",
    "recipe[ruby_dev]",
    "recipe[rvm::system]",
@@ -27,8 +29,8 @@
    "recipe[firefox]",
    "recipe[xvfb]",
    "recipe[redisio]",
+   "recipe[redisio::enable]",
    "recipe[redisio::enable]"
-
   ],
   "apt" : {
     "compile_time_update" : true

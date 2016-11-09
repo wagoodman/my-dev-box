@@ -118,40 +118,7 @@ sauce-connect
 For those wishing to run the dev environment in a container these steps should
 help. Docker is the goto when it comes to application containers (a single app
 per-container) however it is not best suited for system containers (multiple apps
-per-container). Systemd-nspawn and LXC are best suited for this --however, nspawn
+per-container). Systemd-nspawn and LXC/LXD are best suited for this --however, nspawn
 will not work for a Ubuntu 14 guest since systemd is required to be running on
 the guest container and was not introduced until Ubuntu 15. For the above reasons
-LXC instructions are outlied here.
-
-First download the ubuntu 14 bootstrap image:
-```
-$ sudo lxc-create -t download -n devbox -- --dist ubuntu --release trusty --arch amd64
-```
-
-Then attach to the named-container ("devbox") and setup basic utils and accounts:
-```
-$ sudo lxc-attach -n devbox
-root@devbox:/# passwd          # Set the root password
-root@devbox:/# adduser <name>  # Add your account
-root@devbox:/# apt update && apt install vim wget openssh-server
-root@devbox:/# exit
-$                              # You're now back on the host
-```
-
-To share a directory with the container you can edit the `/var/lib/lxc/<name>/config` file
-to introduce a mount entry (same format as in fstab):
-```
-lxc.mount.entry = <host-path> <guest-path> none bind 0 0
-```
-For example, to share the `/home/wagoodman/github/my-dev-box` dir with the
-container guest with a path of `/my-dev-box` use:
-```
-lxc.mount.entry = /home/wagoodman/github/my-dev-box my-dev-box none bind 0 0
-```
-
-Now you can stop and start the container:
-```
-$ sudo lxc-start -n devbox
-$ sudo lxc-stop -n devbox
-$ sudo lxc-ls --fanacy       # to view what containers are running
-```
+LXC/LXD instructions are outlined here.
