@@ -5,6 +5,7 @@
 
     ### Postgresql
     postgresql_version: 9.3
+    postgresql_ext_install_dev_headers: yes
     postgresql_users:
       - name: dev_db_user
         pass: super_secret
@@ -52,9 +53,9 @@
            #- ruby-dev
            - pdftk
            - freetds-bin
-           #- freetds-dev
+           - freetds-dev
            - libmagic1
-           #- libmagic-dev
+           - libmagic-dev
            - xvfb
            - redis-server
            - phantomjs
