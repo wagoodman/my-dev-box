@@ -1,0 +1,24 @@
+
+- name: postgresql-role
+  src: https://github.com/ANXS/postgresql
+  version: v1.6.2
+
+- name: rvm-role
+  src: https://github.com/rvm/rvm1-ansible
+  version: v1.3.8
+
+- name: elasticsearch-role
+  src: https://github.com/debops/ansible-elasticsearch
+  version: v0.1.0
+
+- name: elasticsearch-java-role
+  src: https://github.com/geerlingguy/ansible-role-java
+  version: 1.7.1
+
+- name: nodejs-role
+  src: https://github.com/nodesource/ansible-nodejs-role
+  version: master
+
+- name: phantomjs-role
+  src: https://github.com/nfb-onf/ansible-role-phantomjs
+  version: master

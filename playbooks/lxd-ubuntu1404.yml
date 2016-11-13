@@ -1,0 +1,36 @@
+# DO NOT ADD ANYTHING ELSE TO THIS MODULE! This is only meant to setup a
+# lxd container... notice the host:localhost? This means this will not run
+# on the guest, but instead here
+- hosts: localhost
+  vars:
+    container_name: testbox
+    share_host_path: /home/wagoodman/excella
+    share_name: devshare
+    guest_mount_path: excella
+  tasks:
+    - name: Create a ubuntu 14.04 container
+      lxd_container:
+        name: "{{ container_name }}"
+        state: started
+        source:
+          type: image
+          mode: pull
+          server: https://images.linuxcontainers.org
+          protocol: lxd
+          alias: ubuntu/trusty/amd64
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        timeout: 600
+      register: container_values
+
+    - debug: msg="Container has ip {{ container_values.addresses.eth0[0] }}"
+
+    - name: Check for existing share divice
+      command: bash -c "lxc config show testbox | grep {{ share_name }}"
+      register: has_shared_dir
+      ignore_errors: true
+      changed_when: false
+
+    - name: Add shared directory to container
+      command: "lxc config device add {{ container_name }} {{ share_name }} disk source={{ share_host_path }} path={{ guest_mount_path }}"
+      when: has_shared_dir|failed

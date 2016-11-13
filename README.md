@@ -1,122 +1,78 @@
-Create a local self contained environment for app deployment.
+# MyUSCIS Dev Box
+Create a local self contained environment for development on myUSCIS projects.
+The virtualization provider is assumed to be LXC/LXD containers (system containers).
+Ansible is used to provision the system container with the necessary development
+dependencies (Ruby, Rails, Nginx/Passenger, Java, PostgreSQL, Node.js, npm,
+bower, and elasticsearch).
 
-Includes Ruby, Rails, Nginx/Passenger, Java, PostgreSQL, Node.js, npm, bower, elasticsearch.
+The provided Ansible scripts also shares a chosen directory with the guest
+system container such that all development sources reside on the host. In this
+way you can destroy the container without losing any work.
 
-![myDevBox](./myDevBox.png)
+## Requirements
 
-## 1. Installation reqs
+* Ubuntu host (only 16.04 has been tested, though the container guest is 14.04)
+* LXD (`sudo apt install lxd; newgrp lxd; lxd init`)
+* Ansible (`sudo pip install ansible`)
 
-* VirtualBox (tested w/ 4.3.12)
-* Vagrant (tested w/ 1.6.3)
-* Ruby (tested w/ 2.1.2)
-
-## 2. Get going
-
-Install vagrant omnibus plugin so we can specify version of chef solo in our vagrantfile
-
+## Installation
+Modify the Ansible configuration to share a specific directory with the guest
+system container:
 ```
-vagrant plugin install vagrant-omnibus
-```
-
-Clone the repo
-
-```
-git clone git@github.com:excellaco/my-dev-box.git
+$ vi
 ```
 
-Update the host's local project path to share with the vm, e.g. a web app you're developing locally on the host machine. Creates `vagrant.yml` file and
-creates the `Vagrantfile` from `Vagrantfile.example`.
+Run the setup script:
+```
+$ ./setup.sh
+```
+This will:
+* Install dependent Ansible modules
+* Create a system container called "devbox"
+* Provision the system container with dev dependencies
 
-```ruby
-ruby config_vagrant.rb -l /changeme-absolute-path-to-proj-dir
+## LXD commands
+This is just a short one-over on useful commands for normal operation.
+
+#### Basics
+```
+$ lxc start devbox
+$ lxc stop devbox
+$ lxc restart devbox
+$ lxc list                  # list all created containers
+$ lxc exec devbox bash      # get a root console in the container
+$ lxc info devbox           # get basic info about the container
 ```
 
-Stand it up
-
+#### Snaphots
+Every once in a while you may want to backup the system container, this can
+be done with snapshots:
 ```
-vagrant up
+$ lxc snaphot devbox <snaphot-name>     # create a snapshot
+$ lxc restore devbox <snaphot-name>     # restore the container back to a previous state
 ```
+Note: snapshots do **not** affect shared directories bound into the guest container.
 
-Creates a new Linux VM, currently Ubuntu 14.04 w/ 4GB RAM, then installs the cookbooks with Chef.
-
-NOTE: if you are on a Mac and receive an error that looks like: "clang: error: unknown argument: '-multiply_definedsuppress' [-Wunused-command-line-argument-hard-error-in-future]", you may need to run the "gem install berkshelf -v 3.1.4" command as: "sudo ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future gem install berkshelf -v 3.1.4"
-
-## 3. Verify
-
+#### Destroy
+Delete a container entirely:
 ```
-vagrant ssh
-ruby -v
-rails -v
-java -version
-...
+$ lxc delete devbox
 ```
+Note: this will **not** delete any shared directories on the host.
 
-## 4. Vagrant Commands
+### Why LXC/LXD?
+I was using VMs to achieve the same virtualized development environment, however
+there were a few quirks:
+ * Keeping data in the VM put unsaved work at risk, which means sensitive work
+   is best kept in a shared directory (the data *really* resides on the host).
+ * Shared directories have inferior performance when compared to a native filesystem,
+   which is not preferable.
+ * For Windows hosts: shared dirs do not preserve linux file permissions.
+ * For Linux hosts: VMs seemed silly since I don't *really* need another kernel anyway.
 
-To restart the VM and re-provision
+These above points lead me towards a containerized linux environment.
 
-```
-vagrant reload --provision
-```
-
-Clean shutdown
-
-```
-vagrant halt
-```
-
-Remove the VM completely
-
-```
-vagrant destroy
-```
-
-Start again
-
-```
-vagrant up
-```
-
-## 5. Additional configuration (optional)
-
-Existing settings in your vagrant.yml file will be persisted. Only specifie change will occur. You will need to restart your vagrant box for changes to take effect.
-
-Change number of cpus assigned to your VM (default is 2)
-
-```
-ruby config_vagrant.rb -c <# of cpus>
-```
-
-Change amount of memory assigned to your VM (default is 4096)
-
-```
-ruby config_vagrant.rb -m <amount of memory (MB)>
-```
-
-Change local project path that you initially set up in step #2
-
-```
-ruby config_vagrant.rb -l <absolute-path>
-```
-
-Change guestpath on your VM (default is /vagrant_data)
-
-```
-ruby config_vagrant.rb -g <absolute-path>
-```
-
-
-### Launch Sauce Connect VPN tunnel
-```
-export SAUCE_USERNAME=username
-export SAUCE_ACCESS_KEY=something-secret
-
-sauce-connect
-```
-
-### Run in a Linux Container
-For those wishing to run the dev environment in a container these steps should
-help. Docker is the goto when it comes to application containers (a single app
+Docker is the go-to solution when it comes to application containers (a single app
 per-container) however it is not best suited for system containers (multiple apps
 per-container). Systemd-nspawn and LXC/LXD are best suited for this --however, nspawn
 will not work for a Ubuntu 14 guest since systemd is required to be running on

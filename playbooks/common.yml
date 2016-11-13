@@ -1,0 +1,65 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: testbox
+  tasks:
+
+  # Note: passwords were generated with:
+  #    python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
+  - name: "Setting Root account password"
+    user:
+      name: root
+      password: $1$SomeSalt$PPmF2E0rgLXLtBGMUM60X1
+
+  - name: "Setting Ubuntu account password"
+    user:
+      name: ubuntu
+      password: $1$SomeSalt$PPmF2E0rgLXLtBGMUM60X1
+
+  - name: Install common deps
+    apt: name={{item}} state=installed
+    with_items:
+         - curl
+         - vim
+         - wget
+         - build-essential
+         - openssh-server
+
+  - name: Start SSHD
+    service: name=ssh state=started
+
+  - name: Set PS1 Prompt
+    blockinfile:
+      dest: /home/ubuntu/.bashrc
+      marker: "# {mark} ANSIBLE MANAGED Prompt Block"
+      insertafter: EOF
+      content: |
+        function exitstatus {
+
+            EXITSTATUS="$?"
+            BOLD="\[\033[1m\]"
+            RED="\[\033[1;31m\]"
+            GREEN="\[\e[32;1m\]"
+            BLUE="\[\e[34;1m\]"
+            OFF="\[\033[m\]"
+
+            #PROMPT="${BOLD}\u@\h ${BLUE}\W${OFF}"
+            PROMPT="${BOLD}\h ${BLUE}\W${OFF}"
+
+            if [ "${EXITSTATUS}" -eq 0 ]
+            then
+               PS1="${PROMPT} ${BOLD}${GREEN}:)${OFF} \$ "
+            else
+               PS1="${PROMPT} ${BOLD}${RED}:(${OFF} \$ "
+            fi
+
+            PS2="${BOLD}>${OFF} "
+        }
+
+        PROMPT_COMMAND=exitstatus
+
+  - name: Set 'runit' alias
+    lineinfile:
+      dest: /home/ubuntu/.bashrc
+      regexp: "^alias runit"
+      line: "alias runit='TRUSTED_IP=10.10.60.1 rails s'"
+      insertafter: EOF
