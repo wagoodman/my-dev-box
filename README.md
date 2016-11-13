@@ -15,21 +15,31 @@ way you can destroy the container without losing any work.
 * LXD (`sudo apt install lxd; newgrp lxd; lxd init`)
 * Ansible (`sudo pip install ansible`)
 
-## Installation
-Modify the Ansible configuration to share a specific directory with the guest
-system container:
-```
-$ vi
-```
+## Start up a Contained Dev Environment
 
-Run the setup script:
-```
-$ ./setup.sh
-```
-This will:
-* Install dependent Ansible modules
-* Create a system container called "devbox"
-* Provision the system container with dev dependencies
+1. Modify the Ansible configuration to share a specific directory with the guest
+    system container, for example:
+    ```
+    $ vi playbooks/lxd-ubuntu1404.yml
+      ...
+        share_host_path: /home/wagoodman/excella
+        guest_mount_path: excella
+      ...
+    ```
+    Where:
+     * `share_host_path` is the path of the directory on the host that you'd like to
+       share with the guest container.
+     * `guest_mount_path` is the path where the host share will be mounted (this is
+       relative, so *don't* include a prefixed backslash).
+
+1. Run the setup script:
+    ```
+    $ ./setup.sh
+    ```
+    This will:
+    * Install dependent Ansible modules
+    * Create a system container called "devbox"
+    * Provision the system container with dev dependencies
 
 ## LXD commands
 This is just a short one-over on useful commands for normal operation.
@@ -60,7 +70,7 @@ $ lxc delete devbox
 ```
 Note: this will **not** delete any shared directories on the host.
 
-### Why LXC/LXD?
+## Why LXC/LXD?
 I was using VMs to achieve the same virtualized development environment, however
 there were a few quirks:
  * Keeping data in the VM put unsaved work at risk, which means sensitive work

@@ -1,1 +1,1 @@
-testbox   ansible_user=root   ansible_connection=lxd
+devbox   ansible_user=root   ansible_connection=lxd

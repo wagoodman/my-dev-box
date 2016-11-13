@@ -3,14 +3,13 @@
 # on the guest, but instead here
 - hosts: localhost
   vars:
-    container_name: testbox
     share_host_path: /home/wagoodman/excella
     share_name: devshare
     guest_mount_path: excella
   tasks:
     - name: Create a ubuntu 14.04 container
       lxd_container:
-        name: "{{ container_name }}"
+        name: devbox
         state: started
         source:
           type: image
@@ -32,5 +31,5 @@
       changed_when: false
 
     - name: Add shared directory to container
-      command: "lxc config device add {{ container_name }} {{ share_name }} disk source={{ share_host_path }} path={{ guest_mount_path }}"
+      command: "lxc config device add devbox {{ share_name }} disk source={{ share_host_path }} path={{ guest_mount_path }}"
       when: has_shared_dir|failed
