@@ -25,38 +25,25 @@
         timeout: 600
       register: container_values
 
+    - debug: msg="Container has ip {{ container_values.addresses.eth0[0] }}"
+
     # This allows for uid mapping to occur (wagoodman=1000 --> ubuntu=1000)
     - name: Make container privileged
       command: "lxc config set devbox security.privileged true"
-      # this is not useful for non idempotent steps like this
-      changed_when: false
-      ignore_errors: true
+      when: "'created' in container_values.actions"
 
     - name: Restart container
       command: "lxc restart devbox"
-      # this is not useful for non idempotent steps like this
-      changed_when: false
-      ignore_errors: true
-
-    - debug: msg="Container has ip {{ container_values.addresses.eth0[0] }}"
-
-    #- name: Check for existing share divice
-    #  command: bash -c "lxc config show testbox | grep {{ share_name }}"
-    #  register: has_shared_dir
-    #  ignore_errors: true
-    #  changed_when: false
+      when: "'created' in container_values.actions"
 
     - name: Add shared directory to container
       command: "lxc config device add devbox {{ share_name }} disk source={{ share_host_path }} path={{ guest_mount_path }}"
-      ignore_errors: true
-      # when: ...
+      when: "'created' in container_values.actions"
 
     - name: Update apt cache
       command: "lxc exec devbox -- apt update"
-      # this is not useful for non idempotent steps like this
-      changed_when: false
+      when: "'created' in container_values.actions"
 
     - name: Add python
       command: "lxc exec devbox -- apt install -y python"
-      # this is not useful for non idempotent steps like this
-      changed_when: false
+      when: "'created' in container_values.actions"
