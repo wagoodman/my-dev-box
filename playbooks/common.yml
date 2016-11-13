@@ -21,6 +21,7 @@
          - curl
          - vim
          - wget
+         - git
          - build-essential
          - openssh-server
 
