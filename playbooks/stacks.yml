@@ -9,7 +9,6 @@
     postgresql_users:
       - name: dev_db_user
         pass: super_secret
-        role_attr_flags: "CREATEDB"
         encrypted: no       # denotes if the password is already encrypted.
     postgresql_listen_addresses:
       - '*'
@@ -18,7 +17,7 @@
     postgresql_log_min_duration_statement:  0
     postgresql_log_min_error_statement:     info
     postgresql_pg_hba_default:
-      - { type: local, database: all, user: '{{ postgresql_admin_user }}', address: '',          method: 'ident' }
+      - { type: local, database: all, user: '{{ postgresql_admin_user }}', address: '',          method: 'trust' }
       - { type: local, database: all, user: all,                           address: '',          method: 'ident' }
       - { type: host,  database: all, user: all,                           address: '0.0.0.0/0', method: 'md5' }
       - { type: host,  database: all, user: all,                           address: '::1/128',   method: 'md5' }
@@ -69,3 +68,10 @@
         - openjdk-7-jdk
     - role: elasticsearch-role
     - role: nodejs-role
+
+  post_tasks:
+
+    - name: "Add CREATEDB to postgres {{ postgresql_users[0].name }}"
+      postgresql_user:
+        name: "{{ postgresql_users[0].name }}"
+        role_attr_flags: CREATEDB
