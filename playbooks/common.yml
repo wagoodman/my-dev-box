@@ -15,6 +15,13 @@
       name: ubuntu
       password: $1$SomeSalt$PPmF2E0rgLXLtBGMUM60X1
 
+  - name: Allowing ubuntu user nopasswd sudo access
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^ubuntu'
+      line: 'ubuntu ALL=(ALL) NOPASSWD: ALL'
+
   - name: Install common deps
     apt: name={{item}} state=installed
     with_items:
