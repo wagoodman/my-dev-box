@@ -29,7 +29,7 @@
     rvm1_bundler_install: True
 
     ### Elasticsearch
-    elasticsearch_version: '1.3.4'
+    elasticsearch_version: '1.3'
     elasticsearch_cluster_name: 'answers'
     elasticsearch_node_name: 'esnode'
     elasticsearch_node_rack: 'esrack'

@@ -1,6 +1,9 @@
 # DO NOT ADD ANYTHING ELSE TO THIS MODULE! This is only meant to setup a
 # lxd container... notice the host:localhost? This means this will not run
-# on the guest, but instead here
+# on the guest, but instead here. If you really need to add something, use
+# the "delegate_to: devbox" clause to your command *after* python has been
+# added to the guest.
+
 - hosts: localhost
   vars:
     share_host_path: /home/wagoodman/excella
@@ -24,18 +27,23 @@
 
     - debug: msg="Container has ip {{ container_values.addresses.eth0[0] }}"
 
-    - name: Check for existing share divice
-      command: bash -c "lxc config show testbox | grep {{ share_name }}"
-      register: has_shared_dir
-      ignore_errors: true
-      changed_when: false
+    #- name: Check for existing share divice
+    #  command: bash -c "lxc config show testbox | grep {{ share_name }}"
+    #  register: has_shared_dir
+    #  ignore_errors: true
+    #  changed_when: false
 
     - name: Add shared directory to container
       command: "lxc config device add devbox {{ share_name }} disk source={{ share_host_path }} path={{ guest_mount_path }}"
-      when: has_shared_dir|failed
+      ignore_errors: true
+      # when: ...
 
     - name: Update apt cache
       command: "lxc exec devbox -- apt update"
+      # this is not useful for non idempotent steps like this
+      changed_when: false
 
     - name: Add python
       command: "lxc exec devbox -- apt install -y python"
+      # this is not useful for non idempotent steps like this
+      changed_when: false
