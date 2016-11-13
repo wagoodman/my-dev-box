@@ -33,3 +33,9 @@
     - name: Add shared directory to container
       command: "lxc config device add devbox {{ share_name }} disk source={{ share_host_path }} path={{ guest_mount_path }}"
       when: has_shared_dir|failed
+
+    - name: Update apt cache
+      command: "lxc exec devbox -- apt update"
+
+    - name: Add python
+      command: "lxc exec devbox -- apt install -y python"

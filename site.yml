@@ -1,6 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
 - hosts: devbox
+  gather_facts: false # each playbook will do this
 - include: playbooks/lxd-ubuntu1404.yml
 - include: playbooks/common.yml
 - include: playbooks/stacks.yml
