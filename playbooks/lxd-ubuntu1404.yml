@@ -25,6 +25,19 @@
         timeout: 600
       register: container_values
 
+    # This allows for uid mapping to occur (wagoodman=1000 --> ubuntu=1000)
+    - name: Make container privileged
+      command: "lxc config set devbox security.privileged true"
+      # this is not useful for non idempotent steps like this
+      changed_when: false
+      ignore_errors: true
+
+    - name: Restart container
+      command: "lxc restart devbox"
+      # this is not useful for non idempotent steps like this
+      changed_when: false
+      ignore_errors: true
+
     - debug: msg="Container has ip {{ container_values.addresses.eth0[0] }}"
 
     #- name: Check for existing share divice
