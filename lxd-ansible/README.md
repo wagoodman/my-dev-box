@@ -1,9 +1,7 @@
-# MyUSCIS Dev Box
-Create a local self contained environment for development on myUSCIS projects.
-The virtualization provider is assumed to be LXC/LXD containers (system containers).
 Ansible is used to provision the system container with the necessary development
 dependencies (Ruby, Rails, Nginx/Passenger, Java, PostgreSQL, Node.js, npm,
-bower, and elasticsearch).
+bower, and elasticsearch). The virtualization provider is assumed to be 
+LXC/LXD containers (system containers).
 
 The provided Ansible scripts also shares a chosen directory with the guest
 system container such that all development sources reside on the host. In this
